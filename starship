@@ -1,7 +1,13 @@
+# ==========================================
+#  THE "SPLIT PILL" AESTHETIC CONFIG
+# ==========================================
+
+# CRITICAL: $os and $directory are on the same line with NO spaces between them
 format = """
-$directory\
+$os$directory\
 $git_branch\
 $git_status\
+$package\
 $fill\
 $python\
 $lua\
@@ -12,40 +18,50 @@ $rust\
 $ruby\
 $aws\
 $docker_context\
-$cmd_duration $jobs $time\
-$os\
+$cmd_duration\
+$jobs\
+$time\
 $line_break\
 $character"""
 
 add_newline = true
-palette = "nord"
 
-# --- NEW OS MARKER CONFIGURATION ---
+# --- 1. THE HEAD (OS ICON) ---
+# Silver Background (#D9D9D9) with Black Text (#000000)
 [os]
 disabled = false
-style = "fg:white" # Uses the 'white' defined in your [palettes.nord]
+style = "bg:#D9D9D9 fg:#000000"
+
+# EXPLANATION OF THE MAGIC:
+# 1. [](fg:#D9D9D9) -> Starts the pill with a Silver cap
+# 2. [$symbol]($style) -> The icon itself
+# 3. [](fg:#D9D9D9 bg:#007ACC) -> The connector. 
+#    It is FOREGROUND Silver (to close the first circle)
+#    It is BACKGROUND Blue (to blend into the next module)
+format = '[](fg:#D9D9D9)[$symbol]($style)[](fg:#D9D9D9 bg:#007ACC)'
 
 [os.symbols]
 Windows = " "
 Ubuntu = " "
 Debian = " "
 Linux = " "
-# -----------------------------------
+Macos = " "
 
-[character]
-format = "$symbol "
-success_symbol = "[◎](bold italic bright-green)"
-error_symbol = "[○](italic red)"
-vimcmd_symbol = "[■](italic dimmed green)"
-
+# --- 2. THE BODY (DIRECTORY) ---
+# Vibrant Blue Background (#007ACC) with White Text (#FFFFFF)
 [directory]
-style = 'bold fg:dark_blue'
-format = '[$path ]($style)'
+style = "bg:#007ACC fg:#FFFFFF bold"
+
+# format starts immediately with text (no opening cap) because the OS module provided the background
+format = '[  $path ]($style)[](fg:#007ACC) '
+
 truncation_length = 3
-truncation_symbol = '…/'
+truncation_symbol = "…/"
 truncate_to_repo = false
 
 [directory.substitutions]
+# This replaces the backslash with a nice arrow
+"\\" = "  "
 'Documents' = '󰈙'
 'Downloads' = ' '
 'Music' = ' '
@@ -149,4 +165,3 @@ yellow='#e5c07b'
 gray='#828997'
 white ='#abb2bf'
 black='#2c323c'
-
