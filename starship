@@ -75,7 +75,8 @@ symbol = ' '
 [python]
 symbol = " "
 style = "fg:#FFD666"
-format = '[$symbol( $version)]($style)'
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+pyenv_prefix = ''
 
 [nodejs]
 symbol = " "
